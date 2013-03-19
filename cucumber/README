@@ -1,0 +1,50 @@
+cd course_mngmnt/
+vi Gemfile
+    group :test do
+    	gem 'rspec-rails'
+    	gem 'cucumber-rails'
+    	gem 'capybara'
+    	gem 'database_cleaner'
+    end
+
+bundle
+rails generate rspec:install
+rails generate cucumber:install --capybara
+
+create manage_assignments.feature in the features directory (Review the Gherkin Given-When-Then syntax https://github.com/cucumber/cucumber/wiki/Gherkin)
+
+export CUCUMBER_FORMAT=pretty # or config/cucumber.yml
+rake cucumber
+
+copy the regexp steps that cucumber generates to a new manage_assignments_steps.rb file in the step_definitions directory
+
+rake cucumber
+#Failing Tests!
+
+use the Capybara examples (https://github.com/jnicklas/capybara) and matchers (http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers) to fill out the pending step definitions
+
+rake cucumber
+#Still Failing!
+
+rails generate rspec:model assignment
+vi spec/models/assignment_spec.rb
+# test-drive development of the model
+# we'll take a short cut and implement with scaffold
+rails generate scaffold assignment title details:text due_date:timestamp done:boolean
+rake db:migrate
+rake cucumber # still fails, need to make homepage refer to story list
+
+vi config/routes.rb
+  root :to => "assignments#index"
+rake cucumber # still fails
+  
+rm public/index.html
+rake cucumber # first scenario passes!
+
+to address the next failure, we'll edit the controller
+modify the create method:
+        format.html { redirect_to(@assignment, :notice => 'Assignment was successfully created.') }
+change @assignment to root_path
+
+Now we've fixed one error, but the scenario still fails. We need to edit the index page so the heading is correct.
+
