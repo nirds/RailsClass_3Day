@@ -1,0 +1,12 @@
+= form_for @translantion, :html => { :class => 'form-horizontal' } do |f|
+  .control-group
+    = f.label :original, :class => 'control-label'
+    .controls
+      = f.text_area :original, :class => 'text_area'
+  .control-group
+    = f.label :translated, :class => 'control-label'
+    .controls
+      = f.text_area :translated, :class => 'text_area'
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), translantions_path, :class => 'btn'
