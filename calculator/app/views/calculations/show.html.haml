@@ -1,0 +1,21 @@
+- model_class = Calculation
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human
+
+%p
+  %strong= model_class.human_attribute_name(:input) + ':'
+  %br
+  = @calculation.input
+%p
+  %strong= model_class.human_attribute_name(:function) + ':'
+  %br
+  = @calculation.function
+%p
+  %strong= model_class.human_attribute_name(:output) + ':'
+  %br
+  = @calculation.output
+
+.form-actions
+  = link_to t('.back', :default => t("helpers.links.back")), calculations_path, :class => 'btn'
+  = link_to t('.edit', :default => t("helpers.links.edit")), edit_calculation_path(@calculation), :class => 'btn'
+  = link_to t('.destroy', :default => t("helpers.links.destroy")), calculation_path(@calculation), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'
